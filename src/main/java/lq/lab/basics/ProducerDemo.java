@@ -1,4 +1,4 @@
-package lq.lab.main;
+package lq.lab.basics;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;

@@ -1,4 +1,4 @@
-package lq.lab.main;
+package lq.lab.basics;
 
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -6,14 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
-public class ProducerDemoCallback {
+public class ProducerDemoKeys {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
 
         String BOOTSTRAP_SERVER = "127.0.0.1:9092";
 
-        Logger logger = LoggerFactory.getLogger(ProducerDemoCallback.class);
+        Logger logger = LoggerFactory.getLogger(ProducerDemoKeys.class);
 
         // creation properties
 
@@ -31,10 +32,16 @@ public class ProducerDemoCallback {
         // create producer reccord
 
         for (int i = 0;i<10; i++) {
-            ProducerRecord<String,String> reccord =
-                    new ProducerRecord<String,String>("first_topic","Hello world call back " + Integer.toString(i));
+
+            String topic = "first_topic";
+            String value = "Hello world keys " + Integer.toString(i);
+            String key = "id_"+ Integer.toString(i);
+
+            ProducerRecord<String,String> reccord = new ProducerRecord<String,String>(topic,key,value);
 
             // send data
+
+            logger.info("Key: "+key);
 
             producer.send(reccord, new Callback() {
                 public void onCompletion(RecordMetadata recordMetadata, Exception e) {
@@ -52,7 +59,7 @@ public class ProducerDemoCallback {
                     }
 
                 }
-            });
+            }).get(); // block send to make it synchronous
 
 
         }
