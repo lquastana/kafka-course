@@ -19,7 +19,7 @@ public class ConsumerDemo {
 
         String BOOTSTRAP_SERVER = "127.0.0.1:9092";
         String groupId = "my-5-app";
-        String topic = "first_topic";
+        String topic = "twitter_tweets";
 
         // create consumer config
         Properties prop = new Properties();
